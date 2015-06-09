@@ -1,6 +1,6 @@
 {
   "name": "up-the-tree",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Navigate up - up - up - till found what we're looking for",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,8 @@
   "dependencies": {
     "extend": "^2.0.1"
   },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/KrekkieD/up-the-tree.git"
-    }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KrekkieD/up-the-tree.git"
+  }
 }
