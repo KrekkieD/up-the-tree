@@ -3,26 +3,18 @@
 var $path = require('path');
 var $fs = require('fs');
 
+var $extend = require('extend');
+
 module.exports = upTheTree;
 
-function upTheTree () {
+var DEFAULT_CONFIG = {
+	start: $path.resolve('.'),
+	end: $path.resolve('/')
+};
 
-	var args = Array.prototype.slice.call(arguments);
+function upTheTree (condition, config) {
 
-	var startingPoint = $path.resolve('.');
-	var condition = args[0];
-	var endPoint = undefined;
-
-	if (args.length > 1) {
-		startingPoint = $path.resolve(args[0]);
-		condition = args[1];
-	}
-	if (args.length > 2) {
-		endPoint = args[2];
-	}
-
-	// format startingPoint, force / as path sep for more consistent processing
-	startingPoint = startingPoint.replace(new RegExp($path.sep, 'g'), '/');
+	config = $extend({}, DEFAULT_CONFIG, config);
 
 	if (typeof condition !== 'function') {
 
@@ -36,38 +28,39 @@ function upTheTree () {
 
 	}
 
-	if (typeof endPoint !== 'undefined') {
-		endPoint = endPoint.replace(new RegExp($path.sep, 'g'), '/');
+	// clean paths to prevent errors
+	config.start = $path.resolve(config.start);
+	config.end = $path.resolve(config.end);
+
+	if ($path.relative(config.end, config.start).indexOf('..') === 0) {
+		throw 'options.start path is not within options.end';
 	}
 
-
 	// parse!
-	return process(startingPoint, condition, endPoint);
+	return process(condition, config);
 
 }
 
-function process (start, condition, end) {
+function process (condition, config) {
 
-	var pathParts = start.split('/');
+	var pathParts = config.start.split($path.sep);
 
 	var thisPath;
 	var result;
 	for (var i = 0, iMax = pathParts.length; i < iMax; i++) {
 
-		thisPath = pathParts.join('/');
-
-		//console.log(thisPath);
+		thisPath = pathParts.join($path.sep);
 
 		result = processPath(thisPath, condition);
 
 		if (result) {
-			return thisPath;
+			return $path.resolve(thisPath);
 		}
 		else {
 			pathParts.pop();
 		}
 
-		if (thisPath === end) {
+		if (thisPath === config.end) {
 			// don't iterate again, this was our last chance
 			break;
 		}

@@ -25,8 +25,10 @@ describe ('up-the-tree - custom callbacks', function () {
 
 	it ('should match a falsy .indexOf function starting deeper', function () {
 
-		expect($upTheTree($path.join(__dirname, 'a/few/levels/deep'), function (path) {
+		expect($upTheTree(function (path) {
 			return path.indexOf('deep') === -1;
+		}, {
+			start: $path.join(__dirname, 'a/few/levels/deep')
 		})).toEqual($path.join(__dirname, 'a/few/levels'));
 
 	});

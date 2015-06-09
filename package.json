@@ -10,5 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "jasmine-node": "^1.14.5"
+  },
+  "readme": "readme.md",
+  "dependencies": {
+    "extend": "^2.0.1"
   }
 }
