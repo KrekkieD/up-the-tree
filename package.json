@@ -1,0 +1,14 @@
+{
+  "name": "up-the-tree",
+  "version": "0.0.1",
+  "description": "Navigate up - up - up - till found what we're looking for",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
+}
