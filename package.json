@@ -1,6 +1,6 @@
 {
   "name": "up-the-tree",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Navigate up - up - up the tree - till found what we're looking for",
   "main": "index.js",
   "scripts": {
