@@ -2,7 +2,7 @@
 
 > Come away, Hobbits. We climb. We must climb. Up, up, up the tree we go.
 
-**Super fast:**  
+**Super fast:** ([go to quickstart](#quickstart))  
 Get the path of a file or folder that is somewhere up the folder tree. [Create a `Twig`](#twig) to call `require` from up there, for easy path resolving.
 
 **Slightly more detailed:**  
@@ -18,6 +18,7 @@ $ npm install up-the-tree
 
 ## Usage
 
+<a name="quickstart"></a>
 ### Quickstart
 
 ```
@@ -112,6 +113,7 @@ Undeepest path to look in. This indicates how far up the tree it should go. It w
 
 Creates a twig on the returned path.
 
+<a name="twig"></a>
 ## Twig (`class`)
 
 Now that's awesome, lock that resulting path in place and perform tricks with it.
