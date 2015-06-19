@@ -5,11 +5,15 @@ var $fs = require('fs');
 
 var $extend = require('extend');
 
+var $twig = require('./lib/twig');
+
 module.exports = upTheTree;
+module.exports.Twig = $twig;
 
 var DEFAULT_CONFIG = {
 	start: $path.resolve('.'),
-	end: $path.resolve('/')
+	end: $path.resolve('/'),
+	twig: false
 };
 
 function upTheTree (condition, config) {
@@ -37,7 +41,13 @@ function upTheTree (condition, config) {
 	}
 
 	// parse!
-	return process(condition, config);
+	var path = process(condition, config);
+
+	if (path && config.twig) {
+		path = new module.exports.Twig(path);
+	}
+
+	return path;
 
 }
 

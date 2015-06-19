@@ -8,6 +8,12 @@ var filename = $path.basename(__filename);
 
 describe ('up-the-tree - finding files', function () {
 
+	it ('should be able to find a file without config', function () {
+
+		expect($upTheTree('package.json')).toEqual($path.resolve(__dirname, '..'));
+
+	});
+
 	it ('should find package.json in the CWD', function () {
 
 		expect($upTheTree('package.json')).toEqual($path.resolve('.'));
@@ -30,6 +36,23 @@ describe ('up-the-tree - finding files', function () {
 		expect($upTheTree('mockdata/a', {
 			start: $path.resolve(__dirname)
 		})).toEqual($path.resolve(__dirname));
+
+	});
+
+	it ('should be able to return a path that includes the searched folder', function () {
+
+		expect($upTheTree('../levels', {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual($path.join(__dirname, 'mockdata/a/few/levels'));
+
+		expect($upTheTree('../a/few/levels', {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual($path.join(__dirname, 'mockdata/a'));
+
+		// confirm weird behaviour
+		expect($upTheTree('../random-sibling', {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual($path.join(__dirname, 'mockdata/a/few/levels'));
 
 	});
 
