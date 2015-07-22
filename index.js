@@ -8,11 +8,13 @@ var $extend = require('extend');
 var $twig = require('./lib/twig');
 
 module.exports = upTheTree;
+module.exports.resolve = resolve;
 module.exports.Twig = $twig;
 
 var DEFAULT_CONFIG = {
 	start: $path.resolve('.'),
 	end: $path.resolve('/'),
+	resolve: false,
 	twig: false
 };
 
@@ -20,13 +22,13 @@ function upTheTree (condition, config) {
 
 	config = $extend({}, DEFAULT_CONFIG, config);
 
-	if (typeof condition !== 'function') {
+	var pathToFind = condition;
+	if (typeof pathToFind !== 'function') {
 
 		// this is a fileExists default function
-		var fileToFind = condition;
 		condition = function (currentPath) {
 
-			return $fs.existsSync($path.join(currentPath, fileToFind));
+			return $fs.existsSync($path.join(currentPath, pathToFind));
 
 		};
 
@@ -43,8 +45,19 @@ function upTheTree (condition, config) {
 	// parse!
 	var path = process(condition, config);
 
-	if (path && config.twig) {
-		path = new module.exports.Twig(path);
+	if (path) {
+		if (config.resolve) {
+
+			// path must be a string
+			if (typeof pathToFind !== 'string') {
+				throw 'Condition should be a string (path) when using resolve = true';
+			}
+
+			path = $path.resolve(path, pathToFind);
+		}
+		if (config.twig) {
+			path = new module.exports.Twig(path);
+		}
 	}
 
 	return path;
@@ -84,5 +97,14 @@ function process (condition, config) {
 function processPath (path, condition) {
 
 	return condition(path);
+
+}
+
+function resolve (path, config) {
+
+	config = config || {};
+	config.resolve = true;
+
+	return upTheTree(path, config);
 
 }

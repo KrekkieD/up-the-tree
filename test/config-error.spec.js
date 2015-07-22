@@ -10,7 +10,7 @@ describe ('up-the-tree config errors', function () {
 			$upTheTree('package.json', {
 				start: '.',
 				end: '/Library'
-			})
+			});
 		}).toThrow('options.start path is not within options.end');
 
 	});

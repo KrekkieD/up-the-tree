@@ -30,8 +30,8 @@ $upTheTree(condition, options);
 // find folder containing package.json
 $upTheTree('package.json');
 
-// find path including package.json
-$upTheTree('../package.json');
+// find path and include package.json in the result
+$upTheTree.resolve('package.json');
 
 // create a Twig at my project root
 var rootTwig = $upTheTree('package.json', { twig: true });
@@ -42,10 +42,10 @@ var someLib = rootTwig.require('./lib/some');
 // what is the parent folder of my project root?
 rootTwig.dirname()
 
-// how far away is my project root from the current dir?
+// how far away is the Twig path from __dirname?
 rootTwig.relative(__dirname)
 
-// how far away is it from the working dir?
+// how far away is it from the current working dir?
 rootTwig.relative('.')
 
 ```
@@ -79,10 +79,7 @@ var pathContainingFolder = $upTheTree('node_modules');
 
 var pathContainingPath = $upTheTree('node_modules/extend');
 
-// funky! checks it the folder one-up has the folder node_modules,
-// thereby returning the path including the current folder.
-// WARNING: this could return a sibling of the node_modules folder!
-var nodeModulesRootPath = $upTheTree('../node_modules');
+var nodeModulesRootPath = $upTheTree.resolve('node_modules');
 ```
 
 #### Custom condition
@@ -108,6 +105,11 @@ Deepest path to look in. This indicates the starting point, it will traverse up 
 Undeepest path to look in. This indicates how far up the tree it should go. It will look in this folder last.
 
 **Note:** `options.start` should be within `options.end`.
+
+#### `options.resolve` (default: `false`)
+
+Performs a `path.resolve` on found path and searched path. Note that the condition must be a string (path), otherwise
+it cannot be resolved.
 
 #### `options.twig` (default: `false`)
 
