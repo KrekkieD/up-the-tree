@@ -73,4 +73,29 @@ describe ('up-the-tree - finding files', function () {
 
 	});
 
+	it ('should use package.json as default when condition is null, false, undefined or an empty string', function () {
+
+		var projectRoot = $path.resolve(__dirname, '..');
+
+
+		expect($upTheTree()).toEqual(projectRoot);
+
+		expect($upTheTree('', {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual(projectRoot);
+
+		expect($upTheTree(null, {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual(projectRoot);
+
+		expect($upTheTree(false, {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual(projectRoot);
+
+		expect($upTheTree(undefined, {
+			start: $path.join(__dirname, 'mockdata/a/few/levels/deep')
+		})).toEqual(projectRoot);
+
+	});
+
 });

@@ -20,10 +20,18 @@ var DEFAULT_CONFIG = {
 
 function upTheTree (condition, config) {
 
-	config = $extend({}, DEFAULT_CONFIG, config);
+	config = $extend({}, DEFAULT_CONFIG, config || {});
 
 	var pathToFind = condition;
 	if (typeof pathToFind !== 'function') {
+
+		if (pathToFind === null ||
+			pathToFind === false ||
+			typeof pathToFind === 'undefined' ||
+			pathToFind === '') {
+
+			pathToFind = 'package.json';
+		}
 
 		// this is a fileExists default function
 		condition = function (currentPath) {
