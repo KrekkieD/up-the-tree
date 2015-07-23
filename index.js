@@ -12,8 +12,8 @@ module.exports.resolve = resolve;
 module.exports.Twig = $twig;
 
 var DEFAULT_CONFIG = {
-	start: $path.resolve('.'),
-	end: $path.resolve('/'),
+	start: '.',
+	end: '/',
 	resolve: false,
 	twig: false
 };
